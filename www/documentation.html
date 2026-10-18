@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Venstar Thermostat (Local API)</title>
+<style>
+body { font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 1.45; color: #222; margin: 16px; }
+h1 { font-size: 20px; } h2 { font-size: 16px; margin-top: 22px; border-bottom: 1px solid #ccc; }
+table { border-collapse: collapse; } td, th { border: 1px solid #ccc; padding: 4px 8px; text-align: left; vertical-align: top; }
+code { background: #f2f2f2; padding: 1px 4px; }
+</style>
+</head>
+<body>
+<h1>Venstar Thermostat (Local API) &mdash; v1.1.0</h1>
+<p>Controls Venstar ColorTouch, Explorer and commercial Wi-Fi thermostats directly over the Venstar Local API, using the Control4 thermostatV2 proxy. No cloud account is used.</p>
+
+<h2>Thermostat setup</h2>
+<ol>
+<li>On the thermostat: <b>Menu &gt; Wi-Fi &gt; Local API Options</b>, set <b>Local API</b> to <b>On</b>.</li>
+<li>Give the thermostat a DHCP reservation so its IP address does not change.</li>
+<li>Optional: enable Local API authentication (HTTPS with username/password), and/or a Screen Lock PIN.</li>
+</ol>
+
+<h2>Driver setup</h2>
+<ol>
+<li>Add the driver to the project and enter the <b>IP Address</b>.</li>
+<li>If Local API authentication is on, set <b>Use HTTPS</b> to Yes and enter <b>Username</b> and <b>Password</b> (Digest authentication is handled automatically).</li>
+<li>If Screen Lock is on, enter the <b>Screen Lock PIN</b>.</li>
+<li>Use the <b>Test Connection</b> action, then confirm <b>Driver Status</b> shows Online.</li>
+</ol>
+
+<h2>Properties</h2>
+<table>
+<tr><th>Property</th><th>Notes</th></tr>
+<tr><td>Poll Interval (seconds)</td><td>Default 30. Each cycle reads /query/info and /query/sensors; alerts every 4th cycle. Requests are serialized because the thermostat does not handle concurrent requests.</td></tr>
+<tr><td>Humidity Control</td><td>Enables humidify and/or dehumidify setpoints in Navigator. Only enable for systems with a humidifier or dehumidification wired to the thermostat. Humidify range 0&ndash;60%, dehumidify 25&ndash;99%.</td></tr>
+<tr><td>Outdoor Temperature</td><td>Auto shows outdoor temperature when the thermostat reports an Outdoor sensor.</td></tr>
+<tr><td>Thermostat Info</td><td>Read-only status: model, firmware, activity and stage, schedule, away/occupancy, sensors, alerts.</td></tr>
+<tr><td>Debug Mode / Level</td><td>Debug turns itself off after 6 hours.</td></tr>
+</table>
+
+<h2>Mode mapping</h2>
+<table>
+<tr><th>Control4</th><th>Venstar</th></tr>
+<tr><td>HVAC Off / Heat / Cool / Auto</td><td>mode 0 / 1 / 2 / 3 (limited by the thermostat's available modes)</td></tr>
+<tr><td>Fan Auto / On</td><td>fan 0 / 1</td></tr>
+<tr><td>Hold Off</td><td>Schedule running, Away off</td></tr>
+<tr><td>Hold Permanent</td><td>Schedule off (thermostat holds the current setpoints)</td></tr>
+<tr><td>Hold Away (residential only)</td><td>Away on (the schedule is turned off first, as the API requires)</td></tr>
+</table>
+<p>Setpoint changes from Navigator are combined for 0.7 s so repeated taps produce a single request. The cool setpoint is kept at least <i>setpointdelta</i> above the heat setpoint; raising heat pushes cool up and lowering cool pushes heat down, as on the thermostat itself.</p>
+
+<h2>Connections</h2>
+<p><b>Indoor Temperature</b>, <b>Indoor Humidity</b> and <b>Outdoor Temperature</b> outputs can be bound to other drivers that accept sensor values.</p>
+
+<h2>Programming</h2>
+<p><b>Events:</b> Communication Lost / Restored, Air Filter Alert, UV Lamp Alert, Service Alert, All Alerts Cleared, Away Mode On / Off.</p>
+<p><b>Commands:</b> Refresh Now, Set Away Mode (On/Off/Toggle), Set Schedule (Run Schedule / Permanent Hold), Set Humidify Setpoint, Set Dehumidify Setpoint.</p>
+<p><b>Variables:</b> CONNECTED, HVAC_STATE, HVAC_ACTIVITY, HEAT_SETPOINT, COOL_SETPOINT, HUMIDITY, OUTDOOR_TEMPERATURE, AWAY, SCHEDULE_RUNNING, FILTER_ALERT, UV_LAMP_ALERT, SERVICE_ALERT.</p>
+
+<h2>Notes</h2>
+<ul>
+<li>T2xxx/T3xxx thermostats on firmware older than 5.28 report Celsius in the API regardless of display units; the driver detects this from model and firmware.</li>
+<li>Commercial thermostats do not support Away; occupancy (holiday, override, forced unoccupied) is shown read-only.</li>
+<li>Control4 scheduling presets are not used; the thermostat's own schedule stays in charge unless a hold is set.</li>
+</ul>
+</body>
+</html>
