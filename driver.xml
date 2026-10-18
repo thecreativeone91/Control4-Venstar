@@ -1,0 +1,504 @@
+<devicedata>
+  <copyright>Open Source</copyright>
+  <creator>Open Source</creator>
+  <manufacturer>Venstar</manufacturer>
+  <name>Venstar Thermostat (Local API)</name>
+  <model>ColorTouch / Explorer / Commercial</model>
+  <created>10/18/2026 12:00 PM</created>
+  <modified>10/18/2026 12:00 PM</modified>
+  <version>2</version>
+  <control>lua_gen</control>
+  <driver>DriverWorks</driver>
+  <minimum_os_version>3.0.0</minimum_os_version>
+  <composer_categories>
+    <category>Comfort</category>
+  </composer_categories>
+  <proxies qty="1">
+    <proxy proxybindingid="5001" primary="True" name="Venstar Thermostat">thermostatV2</proxy>
+  </proxies>
+  <capabilities>
+    <has_temperature>True</has_temperature>
+    <has_connection_status>True</has_connection_status>
+    <can_heat>True</can_heat>
+    <can_cool>True</can_cool>
+    <can_do_auto>True</can_do_auto>
+    <has_single_setpoint>False</has_single_setpoint>
+    <can_inc_dec_setpoints>True</can_inc_dec_setpoints>
+    <can_change_scale>True</can_change_scale>
+    <can_preset>False</can_preset>
+    <can_preset_schedule>False</can_preset_schedule>
+    <has_extras>True</has_extras>
+    <has_vacation_mode>False</has_vacation_mode>
+    <has_remote_sensor>False</has_remote_sensor>
+    <has_outdoor_temperature>False</has_outdoor_temperature>
+    <has_humidity>True</has_humidity>
+    <can_humidify>False</can_humidify>
+    <can_dehumidify>False</can_dehumidify>
+    <hvac_modes>Off,Heat,Cool,Auto</hvac_modes>
+    <hvac_states>Off,Heating,Cooling,Idle,Fan Only</hvac_states>
+    <fan_modes>Auto,On</fan_modes>
+    <hold_modes>Off,Permanent,Away</hold_modes>
+    <current_temperature_min_c>-40</current_temperature_min_c>
+    <current_temperature_max_c>60</current_temperature_max_c>
+    <current_temperature_min_f>-40</current_temperature_min_f>
+    <current_temperature_max_f>140</current_temperature_max_f>
+    <current_temperature_resolution_c>0.5</current_temperature_resolution_c>
+    <current_temperature_resolution_f>1</current_temperature_resolution_f>
+    <setpoint_heat_min_c>2</setpoint_heat_min_c>
+    <setpoint_heat_max_c>37</setpoint_heat_max_c>
+    <setpoint_heat_min_f>35</setpoint_heat_min_f>
+    <setpoint_heat_max_f>99</setpoint_heat_max_f>
+    <setpoint_cool_min_c>2</setpoint_cool_min_c>
+    <setpoint_cool_max_c>37</setpoint_cool_max_c>
+    <setpoint_cool_min_f>35</setpoint_cool_min_f>
+    <setpoint_cool_max_f>99</setpoint_cool_max_f>
+    <setpoint_heat_resolution_c>0.5</setpoint_heat_resolution_c>
+    <setpoint_heat_resolution_f>1</setpoint_heat_resolution_f>
+    <setpoint_cool_resolution_c>0.5</setpoint_cool_resolution_c>
+    <setpoint_cool_resolution_f>1</setpoint_cool_resolution_f>
+  </capabilities>
+  <connections>
+    <connection>
+      <id>5001</id>
+      <facing>6</facing>
+      <connectionname>Thermostat</connectionname>
+      <type>2</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>THERMOSTAT</classname>
+        </class>
+      </classes>
+      <hidden>True</hidden>
+    </connection>
+    <connection>
+      <id>5010</id>
+      <facing>6</facing>
+      <connectionname>Indoor Temperature</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>TEMPERATURE_VALUE</classname>
+        </class>
+      </classes>
+      <hidden>False</hidden>
+    </connection>
+    <connection>
+      <id>5011</id>
+      <facing>6</facing>
+      <connectionname>Indoor Humidity</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>HUMIDITY_VALUE</classname>
+        </class>
+      </classes>
+      <hidden>False</hidden>
+    </connection>
+    <connection>
+      <id>5012</id>
+      <facing>6</facing>
+      <connectionname>Outdoor Temperature</connectionname>
+      <type>1</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <classname>TEMPERATURE_VALUE</classname>
+        </class>
+      </classes>
+      <hidden>False</hidden>
+    </connection>
+    <connection>
+      <id>7000</id>
+      <facing>6</facing>
+      <connectionname>Selection</connectionname>
+      <type>7</type>
+      <consumer>False</consumer>
+      <audiosource>False</audiosource>
+      <videosource>False</videosource>
+      <linelevel>False</linelevel>
+      <classes>
+        <class>
+          <autobind>True</autobind>
+          <classname>TEMPERATURE</classname>
+        </class>
+        <class>
+          <autobind>True</autobind>
+          <classname>TEMPERATURE_CONTROL</classname>
+        </class>
+      </classes>
+    </connection>
+  </connections>
+  <events>
+    <event>
+      <id>1</id>
+      <name>Communication Lost</name>
+      <description>NAME lost communication with the thermostat</description>
+    </event>
+    <event>
+      <id>2</id>
+      <name>Communication Restored</name>
+      <description>NAME restored communication with the thermostat</description>
+    </event>
+    <event>
+      <id>3</id>
+      <name>Air Filter Alert</name>
+      <description>NAME reports the air filter needs service</description>
+    </event>
+    <event>
+      <id>4</id>
+      <name>UV Lamp Alert</name>
+      <description>NAME reports the UV lamp needs service</description>
+    </event>
+    <event>
+      <id>5</id>
+      <name>Service Alert</name>
+      <description>NAME reports a service alert</description>
+    </event>
+    <event>
+      <id>6</id>
+      <name>All Alerts Cleared</name>
+      <description>NAME has no active alerts</description>
+    </event>
+    <event>
+      <id>7</id>
+      <name>Away Mode On</name>
+      <description>NAME entered Away mode</description>
+    </event>
+    <event>
+      <id>8</id>
+      <name>Away Mode Off</name>
+      <description>NAME left Away mode</description>
+    </event>
+  </events>
+  <config>
+    <script file="driver.lua"/>
+    <documentation file="www/documentation.html"/>
+    <properties>
+      <property>
+        <name>Connection</name>
+        <type>LABEL</type>
+        <default>Connection</default>
+      </property>
+      <property>
+        <name>Driver Version</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Driver Status</name>
+        <type>STRING</type>
+        <default>Not configured</default>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>IP Address</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Use HTTPS</name>
+        <type>LIST</type>
+        <items>
+          <item>No</item>
+          <item>Yes</item>
+        </items>
+        <default>No</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Username</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Password</name>
+        <type>STRING</type>
+        <default/>
+        <password>true</password>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Screen Lock PIN</name>
+        <type>STRING</type>
+        <default/>
+        <password>true</password>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Poll Interval (seconds)</name>
+        <type>RANGED_INTEGER</type>
+        <minimum>10</minimum>
+        <maximum>300</maximum>
+        <default>30</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Features</name>
+        <type>LABEL</type>
+        <default>Features</default>
+      </property>
+      <property>
+        <name>Humidity Control</name>
+        <type>LIST</type>
+        <items>
+          <item>Off</item>
+          <item>Humidify</item>
+          <item>Dehumidify</item>
+          <item>Humidify and Dehumidify</item>
+        </items>
+        <default>Off</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Outdoor Temperature</name>
+        <type>LIST</type>
+        <items>
+          <item>Auto</item>
+          <item>Disabled</item>
+        </items>
+        <default>Auto</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Thermostat Info</name>
+        <type>LABEL</type>
+        <default>Thermostat Info</default>
+      </property>
+      <property>
+        <name>Thermostat Name</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Model</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Firmware</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>API Version</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Thermostat Type</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>API Temperature Units</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Current Activity</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Fan Running</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Schedule</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Schedule Period</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Away</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Occupancy</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Indoor Humidity</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Outdoor Temp Reading</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Sensors</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Air Filter Alert</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>UV Lamp Alert</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Service Alert</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Last Update</name>
+        <type>STRING</type>
+        <default/>
+        <readonly>true</readonly>
+      </property>
+      <property>
+        <name>Debug</name>
+        <type>LABEL</type>
+        <default>Debug</default>
+      </property>
+      <property>
+        <name>Debug Mode</name>
+        <type>LIST</type>
+        <items>
+          <item>Off</item>
+          <item>Print</item>
+          <item>Log</item>
+          <item>Print and Log</item>
+        </items>
+        <default>Off</default>
+        <readonly>false</readonly>
+      </property>
+      <property>
+        <name>Debug Level</name>
+        <type>LIST</type>
+        <items>
+          <item>1 - Error</item>
+          <item>2 - Warning</item>
+          <item>3 - Info</item>
+          <item>4 - Debug</item>
+          <item>5 - Trace</item>
+        </items>
+        <default>3 - Info</default>
+        <readonly>false</readonly>
+      </property>
+    </properties>
+    <actions>
+      <action>
+        <name>Refresh Now</name>
+        <command>REFRESH_NOW</command>
+      </action>
+      <action>
+        <name>Test Connection</name>
+        <command>TEST_CONNECTION</command>
+      </action>
+      <action>
+        <name>Print Thermostat Data</name>
+        <command>PRINT_DATA</command>
+      </action>
+    </actions>
+    <commands>
+      <command>
+        <name>Refresh Now</name>
+        <description>Poll NAME immediately</description>
+      </command>
+      <command>
+        <name>Set Away Mode</name>
+        <description>Set NAME Away mode PARAM1</description>
+        <params>
+          <param>
+            <name>State</name>
+            <type>LIST</type>
+            <items>
+              <item>On</item>
+              <item>Off</item>
+              <item>Toggle</item>
+            </items>
+          </param>
+        </params>
+      </command>
+      <command>
+        <name>Set Schedule</name>
+        <description>Set NAME schedule to PARAM1</description>
+        <params>
+          <param>
+            <name>Schedule</name>
+            <type>LIST</type>
+            <items>
+              <item>Run Schedule</item>
+              <item>Permanent Hold</item>
+            </items>
+          </param>
+        </params>
+      </command>
+      <command>
+        <name>Set Humidify Setpoint</name>
+        <description>Set NAME humidify setpoint to PARAM1 percent</description>
+        <params>
+          <param>
+            <name>Percent</name>
+            <type>RANGED_INTEGER</type>
+            <minimum>0</minimum>
+            <maximum>60</maximum>
+          </param>
+        </params>
+      </command>
+      <command>
+        <name>Set Dehumidify Setpoint</name>
+        <description>Set NAME dehumidify setpoint to PARAM1 percent</description>
+        <params>
+          <param>
+            <name>Percent</name>
+            <type>RANGED_INTEGER</type>
+            <minimum>25</minimum>
+            <maximum>99</maximum>
+          </param>
+        </params>
+      </command>
+    </commands>
+  </config>
+</devicedata>
